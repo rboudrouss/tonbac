@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 
+
 {% block title %}calcul{% endblock %}
+
+
+{% block head %}
+
+{% endblock %}
+
 
 {% block content %}
 <form action='#' method='POST' >
@@ -25,7 +32,7 @@
         <!-- épreuves anticipé -->
         <div class="anticipe">
             <h2> Notes aux épreuves anticipées : </h2>
-           <div class="block_petit">
+            <div class="block_petit">
                 <div class="block_element"><p>Note en écrit de Français :</p></div>
                 <div class="block_element"><input type='text' name='FR_ecrit' placeholder="écrit fr" size="5" maxlength="5" required pattern="[0-9.]{1,}" title='Caractère numérique et point uniquement ex : 12.58'/></div>
             </div>
@@ -41,12 +48,14 @@
         <!-- résultats du premier trimestre de l'année de terminale -->
         <div class='premier'>
             <h2>Vos moyennes du premier trimestre :</h2>
+
             {% for i in ["sport", "philo", "phch", "svt", "math", "lv1", "hg", "lv2", "spe"] %}
             <div class="block_petit">
                 <div class="block_element"><p>Moyenne en {{i}} au premier trimestre:</p></div>
                 <div class="block_element"><input type='text' name='{{i}}1' placeholder="{{i}}" size="5" maxlength="5" required pattern="[0-9.]{1,}" title='Caractère numérique et point uniquement ex : 12.58'/></div>
             </div>
             {% endfor %}
+
             <div class="block_petit">
                 <div class="block_element"><p>Moyenne en option/lv3 au premier trimestre: (optionnel)</p></div>
                 <div class="block_element"><input type='text' name='option1' placeholder="option/lv3" size="5" maxlength="5" pattern="[0-9.]{1,}" title='Caractère numérique et point uniquement ex : 12.58'/></div>
@@ -55,12 +64,14 @@
         <!-- résultats du deuxieme trimestre de l'année de terminale -->
         <div class='deuxieme'>
             <h2>Vos moyennes du deuxieme trimestre :</h2>
+
             {% for i in ["sport", "philo", "phch", "svt", "math", "lv1", "hg", "lv2", "spe"] %}
             <div class="block_petit2">
                 <div class="block_element"><p>Moyenne en {{i}} au premier deuxieme:</p></div>
                 <div class="block_element"><input type='text' name='{{i}}2' placeholder="{{i}}" size="5" maxlength="5" required pattern="[0-9.]{1,}" title='Caractère numérique et point uniquement ex : 12.58'/></div>
             </div>
             {% endfor %}
+
             <div class="block_petit">
                 <div class="block_element"><p>Moyenne en option/lv3 au deuxieme trimestre: (optionnel)</p></div>
                 <div class="block_element"><input type='text' name='option2' placeholder="option/lv3" size="5" maxlength="5" pattern="[0-9.]{1,}" title='Caractère numérique et point uniquement ex : 12.58'/></div>
