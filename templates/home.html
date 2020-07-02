@@ -1,7 +1,586 @@
-{% extends "base.html" %}
-{% block title %}Rboud{% endblock %}
-{% block content %}
-<h2>Bienvenue sur mon site</h2>
-<p>Je sais même pas ce que vous faite la</p>
-<p>Vous êtes sûr que vous n'êtes pas perdu?</p>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc=" crossorigin="anonymous"/>
+    <style>
+        *,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+/* constom properties */
+:root{
+    --ff-primary:'Source Code Pro', sans-serif ;
+    --ff-secondary: 'Source Code Pro', monospace;
+
+    --fw-reg: 300;
+    --fw-bold: 900;
+
+    --clr-light: #fff;
+    --clr-dark : #303030;
+    --clr-accent : #16e8bd;
+
+    --fs-h1: 3rem;
+    --fs-h2: 2.25rem;
+    --fs-h3: 1.25rem;
+    --fs-body: 1rem;
+
+    --bs: .25em .25em .75em rgba(0,0,0,.25),
+        .125em .125em .25em rgba(0,0,0,.15);
+}
+
+
+@media (min-width : 800px) {
+    :root {
+        --fs-h1: 4.5rem;
+        --fs-h2: 3.75rem;
+        --fs-h3: 1.5rem;
+        --fs-body: 1.125rem;
+    }
+}
+
+/* General styles */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--clr-light) ;
+    color : var(--clr-dark) ;
+    margin: 0;
+    font-family: var(--ff-primary);
+    font-size: var(--fs-body);
+    line-height: 1.6;
+
+}
+
+section {
+    padding: 5em 2em;
+}
+
+img {
+    display: block;
+    max-width: 100%; /* won't overflow bigger than parent */
+}
+
+strong {font-weight: var(--fw-bold);}
+
+:focus {
+    outline: 3px solid var(--clr-accent);
+    outline-offset: 3px;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: .5em 2.5em;
+    background-color: var(--clr-accent);
+    color: var(--clr-dark);
+    text-decoration: none;
+    cursor: pointer;
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: var(--fw-bold);
+    transition: transform 200ms ease-in-out;
+}
+
+.btn:hover {
+    transform: scale(1.1);
+}
+
+/* Typography */
+
+h1,
+h2,
+h3 {
+    line-height: 1;
+    margin: 0;
+}
+
+h1 {font-size: var(--fs-h1)}
+h2 {font-size: var(--fs-h2)}
+h3 {font-size: var(--fs-h3)}
+
+.section__title{
+    margin-bottom: .25em;
+}
+
+.section__title--intro {
+    font-weight: var(--fw-reg);
+}
+
+.section__title--intro strong {
+    display: block ;
+}
+
+.section__subtitle{
+    margin: 0;
+    font-size: var(--fs-h3);
+}
+
+.section__subtitle--intro,
+.section__subtitle--about{
+    background: var(--clr-accent);
+    font-family: var(--ff-secondary);
+    padding: .25em 1em;
+    margin-bottom: 1em;
+}
+
+.section__subtitle--work {
+    color : var(--clr-accent);
+    font-weight: var(--fw-bold);
+    margin-bottom: 2em;
+}
+
+/* Header */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+}
+
+.logo {
+    max-width: 100px;
+}
+
+.nav {
+    position: fixed;
+    background: var(--clr-dark);
+    color: var(--clr-light);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+
+    transform: translateX(100%);
+    transition: transform 250ms cubic-bezier(.5,0,.5,1);
+}
+
+.nav__list {
+    list-style: none;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.nav__link {
+    color : inherit;
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-h3);
+    text-decoration: none;
+}
+
+.nav__link:hover {
+    color: var(--clr-accent);
+}
+
+.nav-toggle {
+    padding: .5em;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    position: absolute;
+    right: 1em;
+    top: 1em;
+    z-index: 1000;
+}
+
+.nav-open .nav{
+    transform: translateX(0%);
+}
+
+.nav-open .nav-toggle {
+    position: fixed;
+}
+
+.nav-open .hamburger {
+    transform: rotate(.625turn);
+}
+
+.nav-open .hamburger::before {
+    transform: rotate(90deg) translateX(-6px);
+}
+
+.nav-open .hamburger::after {
+    opacity: 0;
+}
+
+.hamburger {
+    display: block;
+    position: relative;
+}
+
+.hamburger,
+.hamburger::before,
+.hamburger::after {
+    background: var(--clr-accent);
+    width: 2em;
+    height: 3px;
+    border-radius: 1em;
+}
+
+.hamburger::before,
+.hamburger::after {
+    content:"";
+    position: absolute;
+    left: 0;
+    right: 0;
+    transition: transform 250ms ease-in-out;
+}
+
+.hamburger::before { top: 6px; }
+.hamburger::after { bottom: 6px; }
+
+/* Intro section */
+
+.intro {
+    position: relative;
+}
+
+.intro__img {
+    box-shadow: var(--bs);
+}
+
+@media (min-width:600px) {
+    .intro {
+        display: grid;
+        width: min-content;
+        margin: 0 auto;
+        grid-column-gap: 1em;
+        grid-template-areas: 
+            "img title"
+            "img subtitle";
+        grid-template-columns: min-content max-content;
+    }
+
+    .intro__img {
+        grid-area: img;
+        min-width: 250px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .section__subtitle--intro {
+        align-self: start;
+        grid-column: -1 / 1;
+        grid-row: 2;
+        text-align: right;
+        position: relative;
+        left: -1.5em;
+        width: calc(100% + 1.5em);
+    }
+
+}
+
+/* My services section */
+
+.my-services {
+    background-color: var(--clr-dark);
+    background-image: url(../img/bg.png);
+    background-size: cover;
+    background-blend-mode: soft-light;
+    color: var(--clr-light);
+    text-align: center;
+}
+
+.section__title--services {
+    color: var(--clr-accent);
+    position: relative;
+}
+
+.section__title--services::after {
+    content: '';
+    display: block;
+    width: 3em;
+    height: 1px;
+    margin: .5em auto 1em;
+    background: currentColor;
+    opacity: 0.75;
+}
+
+.services {
+    margin-bottom: 4em;
+}
+
+.service {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+@media (min-width:800px) {
+    .services {
+        display: flex;
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto; 
+    }
+    .service + .service {
+        margin-left: 2em;
+    }
+}
+
+/* about me */
+
+.about-me {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.about-me__img {
+    box-shadow: var(--bs);
+}
+
+@media (min-width : 600px) {
+    .about-me {
+        display: grid;
+        grid-template-columns: 1fr 200px;
+        grid-template-areas: 
+            "title img"
+            "subtitle img"
+            "text img";
+        grid-column-gap: 2em;
+    }
+
+    .section__title--about {
+        grid-area: title;
+    }
+
+    .section__subtitle--about {
+        grid-column: 1/-1;
+        grid-row: 2;
+        position: relative;
+        left: -1em;
+        width: calc(100% + 2em);
+        padding-left: 1em;
+        padding-right: calc(200px + 4em);
+    }
+    
+    .about-me__img {
+        grid-area: img;
+        position: relative;
+        z-index: 2;
+    }
+}
+
+/* My work */
+
+.my-work {
+    background-color: var(--clr-dark);
+    color: var(--clr-light);
+    text-align: center;
+}
+
+.portfolio {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.portfolio__item {
+    background: var(--clr-accent);
+    overflow: hidden;
+}
+
+.portfolio__img {
+    transition:
+        transform 750ms cubic-bezier(.5,0,.5,1),
+        opacity 250ms linear;
+}
+
+.portfolio__item:focus {
+    position: relative;
+    z-index: 2;
+}
+
+.portfolio__img:hover,
+.portfolio__item:focus .portfolio__img {
+    transform: scale(1.1);
+    opacity: .75;
+}
+
+/* footer */
+
+.footer {
+    background: #111;
+    color: var(--clr-accent);
+    text-align: center;
+    padding: 2.5em 0;
+    font-size: var(--fs-h3);
+}
+
+.footer a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.footer__link {
+    font-weight: var(--fw-bold);
+}
+
+.footer__link:hover,
+.social-list__link:hover {
+    opacity: .7;
+}
+
+.footer__link:hover {
+    text-decoration: underline;
+}
+
+.social-list {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin: 2em 0 0;
+    padding: 0;
+}
+
+.social-list__item {
+    margin: 0 .5em;
+}
+
+.social-list__link {
+    padding: .5em;
+}
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="https://cdn.discordapp.com/attachments/557592500722728962/728035564489801738/devrboud.png" alt="">
+        </div>
+
+        <button class="nav-toggle" aria-label="toggle navigation">
+            <span class="hamburger"></span>
+        </button>
+        <nav class="nav">
+            <ul class="nav__list">
+                <li class="nav__item"><a href="#home" class="nav__link">Home</a></li>
+                <li class="nav__item"><a href="#services" class="nav__link">My service</a></li>
+                <li class="nav__item"><a href="#work" class="nav__link">My work</a></li>
+                <li class="nav__item"><a href="#about" class="nav__link">About me</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- Intro -->
+    <section class="intro" id="home">
+        <h1 class="section__title section__title--intro">Qui est <strong>rboud ?</strong></h1>
+        <p class="section__subtitle section__subtitle--intro">Developpeur</p>
+        <img class ="intro__img" src="https://cdn.discordapp.com/attachments/557592500722728962/728035582303010876/rboud-01.png" alt="a picture of rboud">
+    </section>
+
+    <!-- My services -->
+    <section class="my-services" id="services">
+        <h2 class="section__title section__title--services">Ce que je fais</h2>
+        <div class="services">
+            <div class="service">
+                <h3>Python</h3>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab necessitatibus, et dolores totam sequi harum velit, ea incidunt eveniet animi consequuntur, aut vero. Cupiditate, doloribus?</p>
+            </div> 
+            <!-- / service -->
+
+            <div class="service">
+                <h3>Web + Design</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, iste! Perspiciatis, dolorum vero repellat distinctio, rem fugit necessitatibus sunt vitae sint, et asperiores dolores quo?</p>
+            </div> 
+            <!-- / service -->
+
+            <div class="service">
+                <h3>WordPress</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium doloremque magni tenetur, impedit suscipit eligendi, odio dolorum repellat obcaecati corrupti dolores similique, id ipsum ipsam.</p>
+            </div> 
+            <!-- / service -->
+        </div>
+        <a href="#work" class="btn">Mon Travail</a>
+    </section>
+    <!-- About me -->
+    <section class="about-me" id="about">
+        <h2 class="section__title section__title--about">Qui je suis ?</h2>
+        <p class="section__subtitle section__subtitle--about">Developpeur</p>
+        
+        <div class="about-me__body">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti at quasi necessitatibus eum! Tempora mollitia quod et unde, omnis deserunt nulla aliquid doloribus commodi itaque?</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae rerum magnam fugiat repellat exercitationem iusto voluptates illum deleniti magni perferendis, ducimus sint doloribus delectus sunt?</p>
+        </div>
+
+        <img src="https://cdn.discordapp.com/attachments/557592500722728962/728035535720808458/rboud.jpg" alt="" class="about-me__img">
+    </section>
+
+    <!-- My work -->
+    <section class="my-work" id="work">
+        <h2 class="section__title section__title--work">My Work</h2>
+        <p class="section__subtitle section__subtitle--work">Un échantillon de mon travail</p>
+        
+        <div class="portfolio">
+            <!-- Portfolio Item -->
+            <a href="#" class="portfolio__item">
+                <img src="https://cdn.discordapp.com/attachments/557592500722728962/728035581384458421/portfolio-01.jpg" alt="" class="portfolio__img">
+            </a>
+            <!-- Portfolio Item -->
+            <a href="#" class="portfolio__item">
+                <img src="https://cdn.discordapp.com/attachments/557592500722728962/728035581384458421/portfolio-01.jpg" alt="" class="portfolio__img">
+            </a>
+            <!-- Portfolio Item -->
+            <a href="#" class="portfolio__item">
+                <img src="https://cdn.discordapp.com/attachments/557592500722728962/728035581384458421/portfolio-01.jpg" alt="" class="portfolio__img">
+            </a>
+            <!-- Portfolio Item -->
+            <a href="#" class="portfolio__item">
+                <img src="https://cdn.discordapp.com/attachments/557592500722728962/728035581384458421/portfolio-01.jpg" alt="" class="portfolio__img">
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <a href="mailto:r.boudrouss@gmail.com" class="footer__link">r.boudrouss@gmail.com</a>
+        <ul class="social-list">
+            <li class="social-list__item">
+                <a class="social-list__link" href="https://github.com/rboudrouss" target="_blank">
+                    <i class="fab fa-github"></i>
+                </a>
+            </li>
+            <li class="social-list__item">
+                <a class="social-list__link" href="https://www.codingame.com/profile/a3d71302c852abd54655c90f27251dd83946873" target="_blank">Codingame</a>
+            </li>
+            <li class="social-list__item">
+                <a class="social-list__link" href="https://www.facebook.com/rboudrouss/" target="_blank">
+                    <i class="fab fa-facebook"></i>
+                </a>
+            </li>
+            <li class="social-list__item">
+                <a class="social-list__link" href="#" target="_blank">Fiverr</a>
+            </li>
+        </ul>
+    </footer>
+
+    <script>
+        const navToggle = document.querySelector('.nav-toggle')
+const navLinks = document.querySelectorAll('.nav__link') 
+
+navToggle.addEventListener('click', () => {
+    document.body.classList.toggle('nav-open');
+});
+
+navLinks.forEach(link =>  {
+    link.addEventListener('click', () => {
+        document.body.classList.remove('nav-open');
+    })
+});
+    </script>
+
+</body>
+</html>
