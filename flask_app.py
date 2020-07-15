@@ -4,12 +4,6 @@ from math import ceil
 
 app = Flask(__name__)
 
-
-@app.route('/')
-def home():
-    return render_template("home.html")
-
-
 @app.route('/calcul', methods=['POST', 'GET'])
 def calcul():
     # POST CASE

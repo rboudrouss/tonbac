@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 
-{% block title %}calcul{% endblock %}
+{% block title %}calculer votre bac 2020{% endblock %}
 
 
 {% block head %}
@@ -10,11 +10,11 @@
 
 
 {% block content %}
-<form action='#' method='POST' >
-    <div class="block_conteneur">
+<form action='#' method='POST'>
+    <div class="conteneur">
         <!-- choix spécialité -->
         <div class = "spe">
-            <h4>Quelle est votre spécialité?</h4>
+            <h2>Quelle est votre spécialité?</h2>
             <div class='choix'>
                 <input type="radio" name="spe" value="S" required>
                 <label>SVT</label>
@@ -23,9 +23,7 @@
                 <input type="radio" name="spe" value="M" required>
                 <label>Math</label>
             </div>
-        </div>
-        <!-- choix oib -->
-        <div class="check">
+            <!-- choix oib -->
             <input type="checkbox" name="oib">
             <label>Ètes-vous OIB?</label>
         </div>
@@ -67,7 +65,7 @@
 
             {% for i in ["sport", "philo", "phch", "svt", "math", "lv1", "hg", "lv2", "spe"] %}
             <div class="block_petit2">
-                <div class="block_element"><p>Moyenne en {{i}} au premier deuxieme:</p></div>
+                <div class="block_element"><p>Moyenne en {{i}} au deuxieme trimetre:</p></div>
                 <div class="block_element"><input type='text' name='{{i}}2' placeholder="{{i}}" size="5" maxlength="5" required pattern="[0-9.]{1,}" title='Caractère numérique et point uniquement ex : 12.58'/></div>
             </div>
             {% endfor %}
@@ -78,7 +76,7 @@
             </div>
         </div>
         <!-- bouton envoyer -->
-        <div class="block_element"><input type ='submit' value='envoyer' /></div>
+        <div class="block_element"><input class="submit" type ='submit' value='envoyer' /></div>
     </div>
 </form>
 {% endblock %}
